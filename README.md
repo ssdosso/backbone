@@ -108,17 +108,17 @@ MVC는 세개의 주요 컴포넌트로 구성된다:
   // 기본 속성으로 todo 객체를 생성한다.
   var firstTodo = new Todo();
 
-  console.log("Todo's default title: " + firstTodo.get('title')); // ""
-  console.log("Todo's default status: " + firstTodo.get('completed')); // false
+  console.log("Todo's default title: " + firstTodo.get('title')); // Todo's default title: 
+  console.log("Todo's default status: " + firstTodo.get('completed')); // Todo's default status: false
 
   firstTodo.set('title', 'Enjoy reading the book');
-  console.log('Title changed: ' + firstTodo.get('title'));
+  console.log('Title changed: ' + firstTodo.get('title')); // Title changed: Enjoy reading the book
 
   // 특정 정보로 todo 객체를 생성한다.
   var secondTodo = new Todo({ title: 'Try this code in chrome console'});
 
-  console.log("Second todo title: " + secondTodo.get('title')); // "Try this code in chrom console"
-  console.log("Second todo status: " + secondTodo.get('completed')); // false
+  console.log("Second todo title: " + secondTodo.get('title')); // Second todo title: Try this code in chrome console
+  console.log("Second todo status: " + secondTodo.get('completed')); // Second todo status: false
 ```
 
 모델이 원래 가지고 있는 기능은 프레임워크마다 다르지만 모델의 아이디와 같은 모델의 특성을 표현하는 속성에 대해서 그 값이 유효한지 검증하는 기능은 공통적이다. 실제 어플리케이션에서 모델을 사용할 때, 보통은 모델을 유지하는(presist) 방법도 필요로 한다. 유지성(persistence)은 모델의 가장 최신의 상태가 어디엔가(예를들면 웹브라우져의 지역저장소나 데이터베이스와의 동기화) 저장되었다는 것을 알고 모델을 수정하고 갱신할 수 있게 해준다.
@@ -170,7 +170,7 @@ MVC는 세개의 주요 컴포넌트로 구성된다:
 
   // 컬렉션은 모델들을 배열의 형태로
   // models 속성에 저장한다.
-  console.log(todos.models); // Array[3]
+  console.log(todos.models);
 ```
 
 당신이 만일 MVC에 대한 오래된 책을 읽는다면, 어플리케이션의 "상태"(state)를 관리한다는 모델의 묘사를 본적이 있을지도 모른다. 자바스크립트 어플리케이션에서 일반적으로 상태라고 하는 것은 특정 시점에 사용자의 눈에 보이는 뷰나 하위 뷰의 현태상태를 가리키는 특별한 의미를 갖는다. SPA를 볼 때, 어디에서 상태라는 개념을 모방했는지가 일반적인 논쟁거리이다.
@@ -501,7 +501,7 @@ app.TodoView = Backbone.View.extend({
 
 ## 모델
 
-Backbone 모델은 어플리케이션을 위한 상호작용하는 데이타들 뿐만 아니라 이 데이타와 관련된 로직들도 담고 있다. 예를들어, 우리는 제목( 할일 내용 )과 완료( 할일의 현재 상태 ) 속성을 가지고 있는 할일 항목의 개념을 표현하기 위해 모델을 사용할 수 있다.
+Backbone 모델은 어플리케이션을 위한 데이타들 뿐만 아니라 이 데이타와 관련된 로직들도 담고 있다. 예를들어, 우리는 제목( 할일 내용 )과 완료( 할일의 현재 상태 ) 속성을 가지고 있는 할일 항목의 개념을 표현하기 위해 모델을 사용할 수 있다.
 
 모델은 다음과 같이 `Backbone.Model`을 확장해서 만들 수 있다.
 
@@ -532,7 +532,7 @@ var Todo = Backbone.Model.extend({
   }
 });
 
-var myTodo = new Todo();
+var myTodo = new Todo(); // This model has been initialized.
 ```
 
 **기본 값**
@@ -571,7 +571,7 @@ console.log(todo3);
 
 **Model.get()**
 
-`Model.get()`은 모델 속성에 쉬운 접근법을 제공한다. 객체화된 모델을 통해 기본값이 전달되면 모든 속성을 조회할 수 있다.
+`Model.get()`은 모델 속성에 쉬운 접근법을 제공한다.
 
 ```javascript
 var Todo = Backbone.Model.extend({
@@ -590,11 +590,11 @@ var todo2 = new Todo({
   title: "Retrieved with models get() method.",
   completed: true
 });
-console.log(todo2.get('title')); // 모델의 get() 메쏘드로 조회한다.
+console.log(todo2.get('title')); // Retrieved with models get() method.
 console.log(todo2.get('completed')); // true
 ```
 
-모델의 데이타 속성 전체를 읽거나 복제할 필요가 있다면 `toJSON` 메쏘드를 사용해라. 그 이름에도 불구하고 JSON문자열이 아니라 속성의 복제본을 객체로 반환한다( "toJSON"는 JSON.stringify 스펙의 일부분이다. toJSON 메쏘드를 가진 객체를 전달하는 것이 객체 자체 대신에 그 메쏘드의 반환값을 문자열화해준다.).
+모델의 데이타 속성 전체를 읽거나 복제할 필요가 있다면 `toJSON` 메쏘드를 사용해라. 그 이름에도 불구하고 JSON문자열이 아니라 속성의 복제본을 객체로 반환한다( `JSON.stringify()`에 `toJSON()` 메쏘드를 가진 객체가 전달되면 내부적으로 그 객체에 대해 `toJSON()` 메쏘드의 반환값을 문자열화해 반환한다.).
 
 ```javascript
 var Todo = Backbone.Model.extend({
@@ -607,20 +607,22 @@ var Todo = Backbone.Model.extend({
 
 var todo1 = new Todo();
 var todo1Attributes = todo1.toJSON();
-// 다음 출력: {"title":"","completed":false} 
-console.log(todo1Attributes);
+
+console.log(todo1Attributes); // Object {title: "", completed: false}
+console.log(JSON.stringify(todo1)); // {"title":"","completed":false}
 
 var todo2 = new Todo({
   title: "Try these examples and check results in console.",
   completed: true
 });
-// 출력: {"title":"Try examples and check results in console.","completed":true}
-console.log(todo2.toJSON());
+
+console.log(todo2.toJSON()); // Object {title: "Try these examples and check results in console.", completed: true}
+console.log(JSON.stringify(todo2)); // {"title":"Try these examples and check results in console.","completed":true}
 ```
 
 **Model.set()**
 
-`Model.set()`은 속성을 모델 객체에 전달하게 해준다. 속성은 초기화할 때나 그이후 언제라도 설정할 수 있다. Backbone은 모델의 데이타가 변경되었음을 언제 알려야 할지 알기 위해 Model.set()를 사용한다.
+`Model.set()`은 속성을 모델 객체에 전달하게 해준다. 속성은 초기화할 때나 그이후 언제라도 설정할 수 있다. 이러한 속성들이 모델의 상태를 바꾼다면 "change" 이벤트가 발생한다. 각 속성에 대한 별도의 change 이벤트를 발생시킬 수도 있다. ( `change:name`, `change:age` )  
 
 ```javascript
 var Todo = Backbone.Model.extend({
@@ -654,7 +656,7 @@ console.log('Completed: ' + myTodo.get('completed'));
 
 **직접 접근**
 
-만약 모델 객체의 속성들을 직접 접근할 필요가 있다면, `Model.attributes`가 있다. 하지만 위에서 설명한대로 Model.get(), Model.set()이나 직접 초기화가 가장 좋은 사용법임을 기억하라.
+만약 모델 객체의 속성들을 직접 접근할 필요가 있다면, `Model.attributes`가 있다. 하지만 위에서 설명한대로 Model.get(), Model.set()이나 직접 초기화가 가장 좋은 사용법임을 기억하라. 
 
 #### 모델의 변경을 관찰
 
@@ -662,7 +664,7 @@ Backbone 모델에서 어떤 혹은 전체 속성은 그 값이 변경될 때 �
 
 ```javascript
 var Todo = Backbone.Model.extend({
-  // 할일 함목의 기본값
+  // 할일 항목의 기본값
   defaults: {
     title: '',
     completed: false
@@ -675,18 +677,18 @@ var Todo = Backbone.Model.extend({
   }
 });
 
-var myTodo = new Todo();
+var myTodo = new Todo(); // This model has been initialized.
 
-myTodo.set('title', 'On each change of attribute values listener is triggered.');
-console.log('Title has changed: ' + myTodo.get('title'));
+myTodo.set('title', 'On each change of attribute values listener is triggered.'); // - Values for this model have changed.
+console.log('Title has changed: ' + myTodo.get('title')); // Title has changed: On each change of attribute values listener is triggered.
 
-myTodo.set('completed', true);
-console.log('Completed has changed: ' + myTodo.get('completed'));
+myTodo.set('completed', true); // - Values for this model have changed.
+console.log('Completed has changed: ' + myTodo.get('completed')); // Completed has changed: true
 
 myTodo.set({
   title: 'Listener is triggered for each change, not for change of the each attribute.',
   'complete': true
-});
+}); // - Values for this model have changed.
 ```
 
 다음 예제에서, 우리는 특정 속성( Todo모델의 제목 )이 바뀔 때, 메시지를 출력한다.
@@ -709,15 +711,15 @@ var Todo = Backbone.Model.extend({
   }
 });
 
-var myTodo = new Todo();
+var myTodo = new Todo(); // This model has been initialized.
 
 // 다음의 변경은 리스너를 동작시킨다.
-myTodo.set('title', 'Check what\'s logged.');
-myTodo.setTitle('Go fishing on Sunday.');
+myTodo.set('title', 'Check what\'s logged.'); // Title value for this model have changed.
+myTodo.setTitle('Go fishing on Sunday.'); // Title value for this model have changed.
 
 // 하지만, 이 변경은 감시되지 않아서 어떤 리스너도 동작하지 않는다.
 myTodo.set('completed', true);
-console.log('Todo set as completed: ' + myTodo.get('completed'));
+console.log('Todo set as completed: ' + myTodo.get('completed')); // Todo set as completed: true
 ```
 
 #### 값의 검증
@@ -744,11 +746,11 @@ var Todo = Backbone.Model.extend({
   }
 });
 
-var myTodo = new Todo();
-myTodo.set('completed', false); // 출력: Remember to set a title for your todo.
+var myTodo = new Todo(); // This model has been initialized.
+myTodo.set('completed', false); // Remember to set a title for your todo.
 ```
 
-**메모**: Backbone은 Underscore의 `_.extend` 메쏘드를 사용해서 얕은 복제된 `속성들`( 위의 예제에서 attribs 인자 )을 `validate`에게 인자로 넘긴다. 이것은 어떤 숫자, 문자, 참/거짓 속성을 바꿀 수 없지만, 레퍼런스로 넘어온 객체 속성은 바꿀수 *있다*는 것을 의미한다. 얕은 복제는 내부까지 복사하는 방신이 아니기 때문에, 그 객체의 손성들을 바꿀 수 있다.
+**메모**: Backbone은 Underscore의 `_.extend` 메쏘드를 사용해서 얕은 복제된 `속성들`( 위의 예제에서 attribs 인자 )을 `validate`에게 인자로 넘긴다. 이것은 어떤 숫자, 문자, 참/거짓 속성을 바꿀 수 없지만, 레퍼런스로 넘어온 객체 속성은 바꿀수 *있다*는 것을 의미한다. 얕은 복제는 내부까지 복사하는 방식이 아니기 때문에, 그 객체의 속성들을 바꿀 수 있다.
 
 이 예제(by @fivetanley)는 [여기](http://jsfiddle.net/2NdDY/7/)에서 볼 수 있다.
 
